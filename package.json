@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +15,4 @@
     "got": "^10.7.0",
     "jsdom": "^16.6.0"
   }
-
 }

@@ -1,11 +1,10 @@
 import fs from 'fs';
-import { scrap_all } from './scraper.js';
+import { scrapComics } from './scraper.js';
 
-const watching_items_json = JSON.parse(fs.readFileSync('watching_items.json'));
+const comics = JSON.parse(fs.readFileSync('watching_comics.json'));
 
-scrap_all(watching_items_json, fire_notification);
+scrapComics(comics, fireNotification);
 
-
-function fire_notification(item) {
-    console.log(`${item.name}: item available! --> ${item.url}`);
+function fireNotification(comic) {
+    console.log(`${comic.name}: item available! --> ${comic.url}`);
 }

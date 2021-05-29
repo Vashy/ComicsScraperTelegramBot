@@ -1,45 +1,37 @@
 import got from 'got';
 import jsdom from 'jsdom';
+import getComicAvailability from './comic_availabilities.js'
 const { JSDOM } = jsdom;
 
-const pause = 2000;
+const pause = 500;
 
-export const scrap_all = async (watching_items, fire_notification) => {
-    for (const item of watching_items) {
-        console.log('Starting timeout: ' + pause);
+export const scrapComics = async (watchingComics, fireNotification) => {
+    console.log(`Set timeout to: ${pause}ms`);
+    for (const comic of watchingComics) {
         await sleep(pause);
-        scrap(item, fire_notification);
+        const comicAvailabilityStrategy = getComicAvailability(comic);
+        scrap(comic, fireNotification, comicAvailabilityStrategy);
     }
 }
 
-export function scrap(item, fire_notification) {
-    got(item.url)
+function scrap(comic, fireNotification, isComicAvailable) {
+    got(comic.url)
         .then(response => {
             const dom = new JSDOM(response.body);
-            if (is_item_available(dom)) {
-                fire_notification(item);
+            if (isComicAvailable(dom)) {
+                fireNotification(comic);
             } else {
-                console.log(`${item.name}: not available`)
+                logUnavailability(comic);
             }
         }).catch(err => {
             console.log(err);
         });
 }
 
-export function is_item_available(dom) {
-    return !dom
-        .window
-        .document
-        .getElementsByClassName("fumetto-card")[0]
-        .children[2]
-        .children[0]
-        .children[1]
-        .children[0]
-        .children[1]
-        .children[0]
-        .classList.contains('text-muted');
+function logUnavailability(comic) {
+    console.log(`${comic.name}: not available`);
 }
 
-export function sleep(ms) {
+function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
