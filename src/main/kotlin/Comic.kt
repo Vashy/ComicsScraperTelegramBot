@@ -20,7 +20,7 @@ private fun planetMangaAvailability(dom: Element): Boolean {
 }
 
 private fun starComicsAvailability(dom: Element): Boolean {
-    return dom.getElementsByClass("dettaglio-fumetto")[0]
+    return !dom.getElementsByClass("dettaglio-fumetto")[0]
         .children()[1]
         .children()[1]
         .children()[1]
