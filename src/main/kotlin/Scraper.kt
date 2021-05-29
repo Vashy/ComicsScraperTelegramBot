@@ -10,7 +10,7 @@ fun scrapComics(watchingComics: List<Comic>, fireNotification: (Comic) -> Unit) 
     println("Set timeout to: ${timeout}ms")
     watchingComics
         .onEach { Thread.sleep(timeout) }
-        .forEach { scrap(it, fireNotification, it.site.comicAvailability()) }
+        .forEach { scrap(it, fireNotification, it.webSite.checkComicAvailabilityCallback()) }
 }
 
 fun scrap(comic: Comic, fireNotification: (Comic) -> Unit, isComicAvailable: (Element) -> Boolean) {

@@ -3,13 +3,13 @@ package it.vashykator.scraper
 import org.jsoup.nodes.Element
 import java.net.URL
 
-data class Comic(val site: Site, val url: URL, val name: String)
+data class Comic(val webSite: WebSite, val url: URL, val name: String)
 
-enum class Site {
+enum class WebSite {
     PANINI_COMICS,
     STAR_COMICS;
 
-    fun comicAvailability(): (Element) -> Boolean = when (this) {
+    fun checkComicAvailabilityCallback(): (Element) -> Boolean = when (this) {
         PANINI_COMICS -> ::planetMangaAvailability
         STAR_COMICS -> ::starComicsAvailability
     }
