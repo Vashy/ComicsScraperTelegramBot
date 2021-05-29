@@ -5,10 +5,10 @@ import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
 
-val USERS_PATH = "src/main/resources/USERS"
-val userIds: List<Long> = Files.readAllLines(Path.of(USERS_PATH)).map { it.toLong() }
-
+const val usersPath = "src/main/resources/USERS"
 const val tokenEnvKey = "MANGA_NOTIFIER_BOT_TOKEN"
+
+val userIds: List<Long> = Files.readAllLines(Path.of(usersPath)).map { it.toLong() }
 
 fun main() {
     scrapComics(comics, ::fireNotification)
