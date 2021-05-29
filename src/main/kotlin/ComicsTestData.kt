@@ -2,7 +2,7 @@ package it.vashykator.scraper
 
 import java.net.URL
 
-private val testComics = listOf(
+val testComics = listOf(
     Comic(WebSite.STAR_COMICS, URL("https://www.starcomics.com/fumetto/young-301-one-piece-90"), "One Piece 90"), // available
     Comic(WebSite.STAR_COMICS, URL("https://www.starcomics.com/fumetto/action-208-vinland-saga-7"), "Vinland Saga 7"), // not available
     Comic( // available
