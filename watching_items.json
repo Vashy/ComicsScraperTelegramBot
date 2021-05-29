@@ -1,0 +1,22 @@
+[
+    {
+        "site": "Star Comics",
+        "url": "https://www.starcomics.com/ricerca-fumetti?q=one+piece+90&shop=0",
+        "name": "One Piece 90"
+    },
+    {
+        "site": "Star Comics",
+        "url": "https://www.starcomics.com/ricerca-fumetti?q=vinland+saga+7",
+        "name": "Vinland Saga 7"
+    },
+    {
+        "site": "Panini Comics",
+        "url": "https://www.panini.it/shp_ita_it/buonanotte-punpun-3-masan006isbnr2-it08.html",
+        "name": "Buonanotte Punpun 3"
+    },
+    {
+        "site": "Panini Comics",
+        "url": "https://www.panini.it/shp_ita_it/homunculus-1-mmgno023isbnr4-it08.html",
+        "name": "Homunculus 1"
+    }
+]
