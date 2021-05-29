@@ -6,6 +6,7 @@ const { JSDOM } = jsdom;
 const pause = 500;
 
 export const scrapComics = async (watchingComics, fireNotification) => {
+    console.log();
     console.log(`Set timeout to: ${pause}ms`);
     for (const comic of watchingComics) {
         await sleep(pause);
@@ -24,7 +25,7 @@ function scrap(comic, fireNotification, isComicAvailable) {
                 logUnavailability(comic);
             }
         }).catch(err => {
-            console.log(err);
+            console.error(err);
         });
 }
 

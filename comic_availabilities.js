@@ -17,13 +17,12 @@ function planetMangaAvailability(dom) {
 function starComicsAvailability(dom) {
     return !dom
         .window
-        .document
-        .getElementsByClassName("fumetto-card")[0]
-        .children[2]
-        .children[0]
+        .document.getElementsByClassName('dettaglio-fumetto')[0]
+        .children[1]
+        .children[1]
         .children[1]
         .children[0]
-        .children[1]
         .children[0]
-        .classList.contains('text-muted');
+        .classList
+        .contains('text-muted');
 }
