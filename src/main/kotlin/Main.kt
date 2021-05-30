@@ -11,6 +11,7 @@ const val tokenEnvKey = "MANGA_NOTIFIER_BOT_TOKEN"
 val userIds: List<Long> = Files.readAllLines(Path.of(usersPath)).map { it.toLong() }
 
 fun main() {
+    println()
     scrapComics(comics, ::fireNotification)
 }
 

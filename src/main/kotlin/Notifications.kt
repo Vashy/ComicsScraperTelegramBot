@@ -3,6 +3,7 @@ package it.vashykator.scraper
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ParseMode
+import com.github.kotlintelegrambot.entities.ParseMode.MARKDOWN_V2
 import java.net.URL
 
 val Bot = bot {
@@ -11,10 +12,10 @@ val Bot = bot {
 }
 
 fun fireNotification(comic: Comic) {
-    println("${comic.name}: comic available! --> ${comic.url}")
+    Logger.info("${comic.name}: comic available! --> ${comic.url}")
     userIds
         .forEach {
-            Bot.sendMessage(ChatId.fromId(it), formatMessage(comic), parseMode = ParseMode.MARKDOWN_V2)
+            Bot.sendMessage(ChatId.fromId(it), formatMessage(comic), parseMode = MARKDOWN_V2)
         }
 }
 

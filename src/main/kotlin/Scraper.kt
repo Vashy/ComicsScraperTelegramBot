@@ -5,10 +5,9 @@ import org.jsoup.nodes.Element
 
 const val timeout = 500L
 
-fun scrapComics(watchingComics: List<Comic>, fireNotification: (Comic) -> Unit) {
-    println()
-    println("Set timeout to: ${timeout}ms")
-    watchingComics
+fun scrapComics(comics: List<Comic>, fireNotification: (Comic) -> Unit) {
+    Logger.info("Set timeout to: ${timeout}ms")
+    comics
         .onEach { Thread.sleep(timeout) }
         .forEach { scrap(it, fireNotification, it.webSite.checkComicAvailabilityCallback()) }
 }
@@ -23,5 +22,5 @@ fun scrap(comic: Comic, fireNotification: (Comic) -> Unit, isComicAvailable: (El
 }
 
 fun logUnavailability(comic: Comic) {
-    println("${comic.name}: not available")
+    Logger.info("${comic.name}: not available")
 }
