@@ -11,7 +11,7 @@ val Bot = bot {
 }
 
 fun fireNotification(comic: Comic) {
-    logger.info("${comic.name}: comic available! --> ${comic.url}")
+    Logger().info("${comic.name}: comic available! --> ${comic.url}")
     userIds
         .forEach {
             Bot.sendMessage(ChatId.fromId(it), formatMessage(comic), parseMode = MARKDOWN_V2)
