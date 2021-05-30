@@ -3,12 +3,20 @@ package it.vashykator.scraper
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-object Logger {
-    fun info(message: String) {
+interface Logger {
+    fun info(message: String)
+    fun error(message: String)
+}
+
+val logger: Logger = ConsoleLogger()
+
+
+private class ConsoleLogger : Logger {
+    override fun info(message: String) {
         println("${timestamp()} $message")
     }
 
-    fun error(message: String) {
+    override fun error(message: String) {
         System.err.println("${timestamp()} $message")
     }
 }
