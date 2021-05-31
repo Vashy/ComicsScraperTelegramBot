@@ -22,7 +22,7 @@ private val homunculus = Comic(
     "Homunculus 1"
 )
 
-internal class ScraperRealTest {
+internal class ScraperActualWebTest {
     private val fireNotificator = FakeFireNotificator()
 
     @Test

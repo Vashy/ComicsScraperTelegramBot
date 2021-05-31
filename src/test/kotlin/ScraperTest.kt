@@ -1,8 +1,9 @@
+import fakes.FakeAppLogger
+import fakes.FakeFireNotificator
 import it.vashykator.scraper.*
 import it.vashykator.scraper.WebSite.PANINI_COMICS
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
-import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.lang.IllegalArgumentException
@@ -28,22 +29,6 @@ internal class ScraperTest {
         assertTrue(fireNotificator.hasBeenNotified(paniniAvailable), "Should have notified: $paniniAvailable")
         assertTrue(fireNotificator.hasNotBeenNotified(paniniUnavailable), "Should have not notified: $paniniUnavailable")
     }
-}
-
-class FakeAppLogger : AppLogger {
-    private val loggedInfos = mutableListOf<String>()
-    private val loggedErrors = mutableListOf<String>()
-
-    override fun info(message: String) {
-        loggedInfos.add(message)
-    }
-
-    override fun error(message: String) {
-        loggedErrors.add(message)
-    }
-
-    fun hasInfoBeenLogged(message: String): Boolean = loggedInfos.contains(message)
-    fun hasErrorBeenLogged(message: String): Boolean = loggedErrors.contains(message)
 }
 
 fun fakeGetHtmlFrom(): GetHtmlFrom = ::fakePaniniComicsHtmlUnavailable

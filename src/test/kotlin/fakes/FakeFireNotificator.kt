@@ -1,3 +1,5 @@
+package fakes
+
 import it.vashykator.scraper.Comic
 import it.vashykator.scraper.FireNotification
 
