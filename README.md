@@ -2,7 +2,7 @@
 
 ## Token
 
-Define an environment variable as follow:
+Define an environment variable as follows:
 
     export MANGA_NOTIFIER_BOT_TOKEN='1842390258:AAGFgXLI20yXdVDD-nmzW0wBdKusqBL208k'
 

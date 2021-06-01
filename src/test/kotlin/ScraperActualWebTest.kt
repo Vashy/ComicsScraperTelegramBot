@@ -1,8 +1,12 @@
 import fakes.FakeFireNotificator
 import fakes.SwallowLogsLogger
-import it.vashykator.scraper.*
+import it.vashykator.scraper.AppContext
+import it.vashykator.scraper.Comic
+import it.vashykator.scraper.Scraper
 import it.vashykator.scraper.WebSite.PANINI_COMICS
 import it.vashykator.scraper.WebSite.STAR_COMICS
+import it.vashykator.scraper.fireNotificationOnEach
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty
@@ -16,10 +20,12 @@ internal class ScraperActualWebTest {
     internal fun `actual web scraping should match expected available comics`() {
         val testComics = listOf(onePiece, vinlandSaga, chainsawMan, homunculus)
 
-        fireNotificationOnEach(
-            Scraper(SwallowLogsLogger).scrapAvailables(testComics, AppContext().getHtmlFrom),
-            fireNotificator.fireNotification(),
-        )
+        runBlocking {
+            fireNotificationOnEach(
+                Scraper(SwallowLogsLogger).scrapAvailables(testComics, AppContext().getHtmlFrom),
+                fireNotificator.fireNotification(),
+            )
+        }
 
         assertTrue(fireNotificator.hasBeenNotified(onePiece))
         assertTrue(fireNotificator.hasBeenNotified(chainsawMan))

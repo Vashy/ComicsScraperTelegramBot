@@ -1,10 +1,12 @@
 package it.vashykator.scraper
 
-fun main() {
-    println()
+import kotlinx.coroutines.runBlocking
 
-    fireNotificationOnEach(
-        Scraper(AppContext().logger).scrapAvailables(AppContext().findComics(), AppContext().getHtmlFrom),
-        ::fireTelegramMessages
-    )
+fun main() {
+    runBlocking {
+        fireNotificationOnEach(
+            Scraper(AppContext().logger).scrapAvailables(AppContext().findComics(), AppContext().getHtmlFrom),
+            ::fireTelegramMessages
+        )
+    }
 }

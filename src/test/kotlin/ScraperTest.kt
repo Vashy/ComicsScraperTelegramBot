@@ -2,6 +2,7 @@ import fakes.FakeAppLogger
 import fakes.FakeFireNotificator
 import it.vashykator.scraper.*
 import it.vashykator.scraper.WebSite.PANINI_COMICS
+import kotlinx.coroutines.runBlocking
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -22,10 +23,12 @@ internal class ScraperTest {
             paniniAvailable,
         )
 
-        fireNotificationOnEach(
-            Scraper(testLogger).scrapAvailables(comics, fakeGetHtmlFrom()),
-            fireNotificator.fireNotification()
-        )
+        runBlocking {
+            fireNotificationOnEach(
+                Scraper(testLogger).scrapAvailables(comics, fakeGetHtmlFrom()),
+                fireNotificator.fireNotification()
+            )
+        }
 
         assertTrue(testLogger.hasInfoBeenLogged("Set timeout to: ${timeout}ms"), "Should have logged timeout")
         assertTrue(fireNotificator.hasBeenNotified(paniniAvailable), "Should have notified: $paniniAvailable")
