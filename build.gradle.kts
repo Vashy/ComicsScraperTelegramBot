@@ -1,5 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+import java.time.LocalDateTime
 
 plugins {
     kotlin("jvm") version "1.5.10"
@@ -30,7 +31,11 @@ application {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+
     systemProperty("webTest", System.getProperty("webTest"))
+
+    logger.quiet("Timestamp: ${LocalDateTime.now()}")
+
     with(testLogging) {
         showStandardStreams = true
         exceptionFormat = FULL
