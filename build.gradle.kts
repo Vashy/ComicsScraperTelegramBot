@@ -2,6 +2,9 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 import java.time.LocalDateTime
 
+val jsoupVersion = "1.13.1"
+val coroutinesVersion = "1.5.0"
+val kotlinTegramBotVersion = "6.0.4"
 val junitVersion = "5.4.2"
 
 plugins {
@@ -19,9 +22,9 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(group = "org.jsoup", name = "jsoup", version = "1.13.1")
-    implementation(group = "io.github.kotlin-telegram-bot.kotlin-telegram-bot", name = "telegram", version = "6.0.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
+    implementation(group = "org.jsoup", name = "jsoup", version = jsoupVersion)
+    implementation("io.github.kotlin-telegram-bot.kotlin-telegram-bot", "telegram", kotlinTegramBotVersion)
+    implementation(group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = coroutinesVersion)
 
     testImplementation(group = "org.junit.jupiter", name = "junit-jupiter-api", version = junitVersion)
     testImplementation(group = "org.junit.jupiter", name = "junit-jupiter-params", version = junitVersion)

@@ -2,6 +2,7 @@ import fakes.FakeAppLogger
 import fakes.FakeFireNotificator
 import it.vashykator.scraper.*
 import it.vashykator.scraper.WebSite.PANINI_COMICS
+import it.vashykator.scraper.WebSite.STAR_COMICS
 import kotlinx.coroutines.runBlocking
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -23,12 +24,7 @@ internal class ScraperTest {
             paniniAvailable,
         )
 
-        runBlocking {
-            fireNotificationOnEach(
-                Scraper(testLogger).scrapAvailables(comics, fakeGetHtmlFrom()),
-                fireNotificator.fireNotification()
-            )
-        }
+        callScraper(comics, fakeGetHtmlPaniniComicsFrom())
 
         assertTrue(testLogger.hasInfoBeenLogged("Set timeout to: ${timeout}ms"), "Should have logged timeout")
         assertTrue(fireNotificator.hasBeenNotified(paniniAvailable), "Should have notified: $paniniAvailable")
@@ -41,12 +37,79 @@ internal class ScraperTest {
             "Should have logged unavailability"
         )
     }
+
+    @Test
+    internal fun `should notify when a comic from Star Comics is available`() {
+        val starComics = Comic(STAR_COMICS, URL("http://star-comics.available.com"), "Manga 1")
+        val comics = listOf(starComics)
+
+        callScraper(comics, fakeGetHtmlStarComicsFrom())
+
+        assertTrue(fireNotificator.hasBeenNotified(starComics), "Should have notified: $starComics")
+    }
+
+    @Test
+    internal fun `should not notify when a comic from Star Comics is unavailable`() {
+        val starComics = Comic(STAR_COMICS, URL("http://star-comics.unavailable.com"), "Manga 1")
+        val comics = listOf(starComics)
+
+        callScraper(comics, fakeGetHtmlStarComicsFrom())
+
+        assertTrue(fireNotificator.hasNotBeenNotified(starComics), "Should have notified: $starComics")
+    }
+
+    private fun callScraper(comics: List<Comic>, getHtmlFrom: GetHtmlFrom) {
+        runBlocking {
+            fireNotificationOnEach(
+                Scraper(testLogger).scrapAvailables(comics, getHtmlFrom),
+                fireNotificator.fireNotification()
+            )
+        }
+    }
 }
 
-fun fakeGetHtmlFrom(): GetHtmlFrom = ::fakePaniniComicsHtmlUnavailable
+private fun fakeGetHtmlPaniniComicsFrom(): GetHtmlFrom = ::fakePaniniComicsHtml
 
-fun fakePaniniComicsHtmlUnavailable(url: String): Element = when (url) {
+private fun fakeGetHtmlStarComicsFrom(): GetHtmlFrom = ::fakeStarComicsHtml
+
+private fun fakePaniniComicsHtml(url: String): Element = when (url) {
     "http://panini.available.com" -> Jsoup.parse("""<div class="box-tocart"></div>""").body()
     "http://panini.unavailable.com" -> Jsoup.parse("""<div class="box-tocartNotPresent"></div>""").body()
     else -> throw IllegalArgumentException("Unexpected URL $url")
 }
+
+private fun fakeStarComicsHtml(url: String): Element = when (url) {
+    "http://star-comics.available.com" -> Jsoup.parse(htmlStarComicsAvailable()).body()
+    "http://star-comics.unavailable.com" -> Jsoup.parse(htmlStarComicsUnavailable()).body()
+    else -> throw IllegalArgumentException("Unexpected URL $url")
+}
+
+private fun htmlStarComicsAvailable() = """<div class="dettaglio-fumetto">
+        |<div></div>
+        |<div>
+        |   <div></div>
+        |   <div>
+        |       <div></div>
+        |       <div>
+        |           <div>
+        |               <div class="not-text-muted"></div>
+        |           </div>
+        |       </div>
+        |   </div>
+        |</div>
+        |</div>""".trimMargin()
+
+private fun htmlStarComicsUnavailable() = """<div class="dettaglio-fumetto">
+        |<div></div>
+        |<div>
+        |   <div></div>
+        |   <div>
+        |       <div></div>
+        |       <div>
+        |           <div>
+        |               <div class="text-muted"></div>
+        |           </div>
+        |       </div>
+        |   </div>
+        |</div>
+        |</div>""".trimMargin()
