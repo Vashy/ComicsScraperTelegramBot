@@ -17,3 +17,11 @@ internal class FakeAppLogger : AppLogger {
     fun hasInfoBeenLogged(message: String): Boolean = loggedInfos.contains(message)
     fun hasErrorBeenLogged(message: String): Boolean = loggedErrors.contains(message)
 }
+
+internal object SwallowLogsLogger : AppLogger {
+    override fun info(message: String) {
+    }
+
+    override fun error(message: String) {
+    }
+}

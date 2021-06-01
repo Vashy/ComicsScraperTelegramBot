@@ -1,4 +1,5 @@
 import fakes.FakeFireNotificator
+import fakes.SwallowLogsLogger
 import it.vashykator.scraper.*
 import it.vashykator.scraper.WebSite.PANINI_COMICS
 import it.vashykator.scraper.WebSite.STAR_COMICS
@@ -30,7 +31,7 @@ internal class ScraperActualWebTest {
     internal fun `actual web scraping should match expected available comics`() {
         val testComics = listOf(onePiece, vinlandSaga, chainsawMan, homunculus)
 
-        Scraper(AppContext().logger)
+        Scraper(SwallowLogsLogger)
             .scrap(
                 testComics,
                 fireNotificator.fireNotification(),

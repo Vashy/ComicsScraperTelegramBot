@@ -1,4 +1,5 @@
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
     kotlin("jvm") version "1.5.10"
@@ -32,7 +33,7 @@ tasks.withType<Test> {
     systemProperty("webTest", System.getProperty("webTest"))
     with(testLogging) {
         showStandardStreams = true
-        exceptionFormat = TestExceptionFormat.FULL
-        events("passed", "skipped", "failed", "standardOut", "standardError")
+        exceptionFormat = FULL
+        events(PASSED, SKIPPED, FAILED)
     }
 }
