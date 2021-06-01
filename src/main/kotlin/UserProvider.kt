@@ -3,7 +3,7 @@ package it.vashykator.scraper
 import java.nio.file.Files
 import java.nio.file.Path
 
-private const val usersPath = "src/main/resources/USERS"
+private const val usersPath = "$RESOURCES/USERS"
 
 @JvmInline
 value class User(val id: Long)
