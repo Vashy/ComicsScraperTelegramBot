@@ -2,6 +2,8 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 import java.time.LocalDateTime
 
+val junitVersion = "5.4.2"
+
 plugins {
     kotlin("jvm") version "1.5.10"
     application
@@ -20,9 +22,9 @@ dependencies {
     implementation(group = "org.jsoup", name = "jsoup", version = "1.13.1")
     implementation(group = "io.github.kotlin-telegram-bot.kotlin-telegram-bot", name = "telegram", version = "6.0.4")
 
-    testImplementation(group = "org.junit.jupiter", name = "junit-jupiter-api", version = "5.4.2")
-    testImplementation(group = "org.junit.jupiter", name = "junit-jupiter-params", version = "5.4.2")
-    testRuntimeOnly(group = "org.junit.jupiter", name = "junit-jupiter-engine", version = "5.4.2")
+    testImplementation(group = "org.junit.jupiter", name = "junit-jupiter-api", version = junitVersion)
+    testImplementation(group = "org.junit.jupiter", name = "junit-jupiter-params", version = junitVersion)
+    testRuntimeOnly(group = "org.junit.jupiter", name = "junit-jupiter-engine", version = junitVersion)
 }
 
 application {

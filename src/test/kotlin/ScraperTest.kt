@@ -27,7 +27,14 @@ internal class ScraperTest {
 
         assertTrue(testLogger.hasInfoBeenLogged("Set timeout to: ${timeout}ms"), "Should have logged timeout")
         assertTrue(fireNotificator.hasBeenNotified(paniniAvailable), "Should have notified: $paniniAvailable")
-        assertTrue(fireNotificator.hasNotBeenNotified(paniniUnavailable), "Should have not notified: $paniniUnavailable")
+        assertTrue(
+            fireNotificator.hasNotBeenNotified(paniniUnavailable),
+            "Should have not notified: $paniniUnavailable"
+        )
+        assertTrue(
+            testLogger.hasInfoBeenLogged("${paniniUnavailable.name}: not available"),
+            "Should have logged unavailability"
+        )
     }
 }
 
@@ -35,6 +42,6 @@ fun fakeGetHtmlFrom(): GetHtmlFrom = ::fakePaniniComicsHtmlUnavailable
 
 fun fakePaniniComicsHtmlUnavailable(url: String): Element = when (url) {
     "http://panini.available.com" -> Jsoup.parse("""<div class="box-tocart"></div>""").body()
-    "http://panini.unavailable.com" -> Jsoup.parse("""<div class="box-tocartXXXX"></div>""").body()
+    "http://panini.unavailable.com" -> Jsoup.parse("""<div class="box-tocartNotPresent"></div>""").body()
     else -> throw IllegalArgumentException("Unexpected URL $url")
 }
