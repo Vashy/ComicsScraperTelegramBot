@@ -8,7 +8,7 @@ import kotlin.text.Charsets.UTF_8
 fun findHardcodedComics(): List<Comic> =
     listOf(
         Comic(
-            WebSite.STAR_COMICS,
+            StarComics,
             URL("https://www.starcomics.com/fumetto/action-250-vinland-saga-13"),
             "Vinland Saga 13"
         )

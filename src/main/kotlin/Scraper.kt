@@ -34,8 +34,6 @@ class Scraper(private val logger: AppLogger) {
         }
     }
 
-    private fun Comic.isAvailable(dom: Element) = webSite.checkComicAvailabilityCallback()(dom)
-
     private fun logUnavailability(comic: Comic) {
         logger.info("${comic.name}: not available")
     }

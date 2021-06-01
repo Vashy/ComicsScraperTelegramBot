@@ -1,8 +1,6 @@
 import fakes.FakeAppLogger
 import fakes.FakeFireNotificator
 import it.vashykator.scraper.*
-import it.vashykator.scraper.WebSite.PANINI_COMICS
-import it.vashykator.scraper.WebSite.STAR_COMICS
 import kotlinx.coroutines.runBlocking
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -17,8 +15,8 @@ internal class ScraperTest {
 
     @Test
     internal fun `should notify only when a comic from Panini Comics is available`() {
-        val paniniUnavailable = Comic(PANINI_COMICS, URL("http://panini.unavailable.com"), "Manga 2")
-        val paniniAvailable = Comic(PANINI_COMICS, URL("http://panini.available.com"), "Manga 1")
+        val paniniUnavailable = Comic(PaniniComics, URL("http://panini.unavailable.com"), "Manga 2")
+        val paniniAvailable = Comic(PaniniComics, URL("http://panini.available.com"), "Manga 1")
         val comics = listOf(
             paniniUnavailable,
             paniniAvailable,
@@ -40,7 +38,7 @@ internal class ScraperTest {
 
     @Test
     internal fun `should notify when a comic from Star Comics is available`() {
-        val starComics = Comic(STAR_COMICS, URL("http://star-comics.available.com"), "Manga 1")
+        val starComics = Comic(StarComics, URL("http://star-comics.available.com"), "Manga 1")
         val comics = listOf(starComics)
 
         callScraper(comics, fakeGetHtmlStarComicsFrom())
@@ -50,7 +48,7 @@ internal class ScraperTest {
 
     @Test
     internal fun `should not notify when a comic from Star Comics is unavailable`() {
-        val starComics = Comic(STAR_COMICS, URL("http://star-comics.unavailable.com"), "Manga 1")
+        val starComics = Comic(StarComics, URL("http://star-comics.unavailable.com"), "Manga 1")
         val comics = listOf(starComics)
 
         callScraper(comics, fakeGetHtmlStarComicsFrom())

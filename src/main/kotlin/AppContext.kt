@@ -26,7 +26,7 @@ fun AppContext(): AppContext {
 private object AppContextInstance : AppContext {
     override val fireNotification = ::fireTelegramMessages
     override val findComics = { findComicsFromCsv(Path.of(RESOURCES, "comics.csv")) }
-    override val findUsers = ::getUsersFromFileSystem
+    override val findUsers = ::readUsersFromFileSystem
     override val getHtmlFrom = ::getHtmlFromWithJsoup
     override val logger = Logger()
 }
