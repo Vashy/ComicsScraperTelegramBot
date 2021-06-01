@@ -22,8 +22,10 @@ internal class ScraperTest {
             paniniAvailable,
         )
 
-        Scraper(testLogger)
-            .scrap(comics, fireNotificator.fireNotification(), fakeGetHtmlFrom())
+        fireNotificationOnEach(
+            Scraper(testLogger).scrapAvailables(comics, fakeGetHtmlFrom()),
+            fireNotificator.fireNotification()
+        )
 
         assertTrue(testLogger.hasInfoBeenLogged("Set timeout to: ${timeout}ms"), "Should have logged timeout")
         assertTrue(fireNotificator.hasBeenNotified(paniniAvailable), "Should have notified: $paniniAvailable")

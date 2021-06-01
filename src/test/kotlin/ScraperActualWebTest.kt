@@ -23,20 +23,18 @@ private val homunculus = Comic(
     "Homunculus 1"
 )
 
+@EnabledIfSystemProperty(named = "webTest", matches = "true")
 internal class ScraperActualWebTest {
     private val fireNotificator = FakeFireNotificator()
 
     @Test
-    @EnabledIfSystemProperty(named = "webTest", matches = "true")
     internal fun `actual web scraping should match expected available comics`() {
         val testComics = listOf(onePiece, vinlandSaga, chainsawMan, homunculus)
 
-        Scraper(SwallowLogsLogger)
-            .scrap(
-                testComics,
-                fireNotificator.fireNotification(),
-                AppContext().getHtmlFrom,
-            )
+        fireNotificationOnEach(
+            Scraper(SwallowLogsLogger).scrapAvailables(testComics, AppContext().getHtmlFrom),
+            fireNotificator.fireNotification(),
+        )
 
         assertTrue(fireNotificator.hasBeenNotified(onePiece))
         assertTrue(fireNotificator.hasBeenNotified(chainsawMan))

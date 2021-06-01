@@ -5,31 +5,28 @@ import org.jsoup.nodes.Element
 const val timeout = 500L
 
 class Scraper(private val logger: AppLogger) {
-    fun scrap(comics: List<Comic>, fireNotification: FireNotification, getHtmlFrom: GetHtmlFrom) {
+    fun scrapAvailables(comics: List<Comic>, getHtmlFrom: GetHtmlFrom): Sequence<Comic> {
         logger.info("Set timeout to: ${timeout}ms")
-        comics
+        return comics
+            .asSequence()
             .onEach { Thread.sleep(timeout) }
-            .forEach { comic ->
-                scrap(
-                    comic,
-                    fireNotification,
-                    comic.webSite.checkComicAvailabilityCallback(),
-                    getHtmlFrom
-                )
+            .mapNotNull { comic ->
+                scrap(comic, comic.webSite.checkComicAvailabilityCallback(), getHtmlFrom)
             }
     }
 
     private fun scrap(
         comic: Comic,
-        fireNotification: FireNotification,
         isComicAvailable: (Element) -> Boolean,
         getHtmlFrom: GetHtmlFrom,
-    ) {
+    ): Comic? {
         val dom = getHtmlFrom(comic.url.toString())
-        if (isComicAvailable(dom)) {
-            fireNotification(comic)
-        } else {
-            logUnavailability(comic)
+        return when {
+            isComicAvailable(dom) -> comic
+            else -> {
+                logUnavailability(comic)
+                null
+            }
         }
     }
 

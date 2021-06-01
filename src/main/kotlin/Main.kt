@@ -3,10 +3,8 @@ package it.vashykator.scraper
 fun main() {
     println()
 
-    Scraper(AppContext().logger)
-        .scrap(
-            AppContext().findComics(),
-            AppContext().fireNotification,
-            AppContext().getHtmlFrom,
-        )
+    fireNotificationOnEach(
+        Scraper(AppContext().logger).scrapAvailables(AppContext().findComics(), AppContext().getHtmlFrom),
+        ::fireTelegramMessages
+    )
 }

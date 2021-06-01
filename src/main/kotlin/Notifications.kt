@@ -8,6 +8,10 @@ import java.net.URL
 private const val tokenEnvKey = "MANGA_NOTIFIER_BOT_TOKEN"
 private val userIds: List<User> = AppContext().findUsers()
 
+fun fireNotificationOnEach(comics: Sequence<Comic>, fireNotification: FireNotification) {
+    comics.forEach(fireNotification)
+}
+
 fun fireTelegramMessages(comic: Comic) {
     AppContext().logger.info("${comic.name}: comic available! --> ${comic.url}")
     userIds
