@@ -5,7 +5,10 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty
-import java.net.URL
+import java.lang.IllegalArgumentException
+import java.nio.file.Path
+
+const val TEST_RESOURCES = "src/test/resources"
 
 @EnabledIfSystemProperty(named = "webTest", matches = "true")
 internal class ScraperActualWebTest {
@@ -13,7 +16,7 @@ internal class ScraperActualWebTest {
 
     @Test
     internal fun `actual web scraping should match expected available comics`() {
-        val testComics = listOf(onePiece, vinlandSaga, chainsawMan, homunculus)
+        val testComics = findComicsFromCsv(Path.of(TEST_RESOURCES, "comics.csv"))
 
         runBlocking {
             fireNotificationOnEach(
@@ -23,25 +26,14 @@ internal class ScraperActualWebTest {
         }
 
         with(fireNotificator) {
-            assertTrue(hasBeenNotified(onePiece))
-            assertTrue(hasBeenNotified(chainsawMan))
-            assertTrue(hasNotBeenNotified(vinlandSaga))
-            assertTrue(hasNotBeenNotified(homunculus))
+            assertTrue(hasBeenNotified(testComics.findByName("One Piece 90")))
+            assertTrue(hasBeenNotified(testComics.findByName("Chainsaw Man 4")))
+            assertTrue(hasNotBeenNotified(testComics.findByName("Vinland Saga 7")))
+            assertTrue(hasNotBeenNotified(testComics.findByName("Homunculus 1")))
         }
     }
 }
 
-private val onePiece =
-    Comic(StarComics, URL("https://www.starcomics.com/fumetto/young-301-one-piece-90"), "One Piece 90")
-private val vinlandSaga =
-    Comic(StarComics, URL("https://www.starcomics.com/fumetto/action-208-vinland-saga-7"), "Vinland Saga 7")
-private val chainsawMan = Comic(
-    PaniniComics,
-    URL("https://www.panini.it/shp_ita_it/chainsaw-man-4-mmost014-it08.html"),
-    "Chainsaw Man 4"
-)
-private val homunculus = Comic(
-    PaniniComics,
-    URL("https://www.panini.it/shp_ita_it/homunculus-1-mmgno023isbnr4-it08.html"),
-    "Homunculus 1"
-)
+private fun List<Comic>.findByName(name: String) =
+    find { comic -> comic.name == name }
+        ?: throw IllegalArgumentException("Comic $name not found in (${this.joinToString(";")})")

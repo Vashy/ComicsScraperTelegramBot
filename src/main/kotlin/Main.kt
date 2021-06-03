@@ -6,7 +6,7 @@ fun main() {
     runBlocking {
         fireNotificationOnEach(
             Scraper(AppContext().logger).scrapAvailables(AppContext().findComics(), AppContext().getHtmlFrom),
-            ::fireTelegramMessages
+            AppContext().fireNotification,
         )
     }
 }
