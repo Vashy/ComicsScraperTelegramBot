@@ -28,7 +28,7 @@ internal class ScraperActualWebTest {
         with(fireNotificator) {
             assertTrue(hasBeenNotified(testComics.findByName("One Piece 90")))
             assertTrue(hasBeenNotified(testComics.findByName("Chainsaw Man 4")))
-            assertTrue(hasNotBeenNotified(testComics.findByName("Vinland Saga 7")))
+            assertTrue(hasNotBeenNotified(testComics.findByName("Vinland Saga 24")))
             assertTrue(hasNotBeenNotified(testComics.findByName("Homunculus 1")))
         }
     }
